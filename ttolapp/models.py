@@ -21,11 +21,13 @@ class TeachModel(models.Model):
         )
 
     category = models.CharField(
+        verbose_name='カテゴリ',
         max_length=30,
         choices=CATEGORY
     )
 
     serchword = models.CharField(
+        verbose_name='キーワード',
         max_length=50, 
         null=True,
         blank=True
@@ -34,6 +36,8 @@ class TeachModel(models.Model):
         CustomUser, verbose_name='作成者',
         on_delete = models.CASCADE
     )
+
+    content = models.TextField(verbose_name='コンテンツ')
 
     def __str__(self):
         return self.title

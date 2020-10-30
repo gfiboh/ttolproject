@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+{% endblock header %}
+
+{% block content %}
+    
+    <h1>{{object.title}}</h1>
+    <h3>{{object.get_category_display}}</h3>
+    <p>{{object.serchword}}</p>
+    <p>{{object.techer}}</p>
+    <p>{{object.content}}</p>
+
+{% endblock content %}

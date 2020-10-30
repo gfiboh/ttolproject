@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+{% endblock header %}
+
+{% block content %}
+{% for item in object_list %}
+        <p>{{item.title}}</p>
+        <ul>
+            <li>{{item.get_category_display}}</li>
+            <li>{{item.serchword}}</li>
+            <li>{{item.teacher}}</li>    
+        </ul>
+{% endfor %}
+
+{% endblock content %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+{% endblock header %}
+
+{% block content %}
+    <h1>作成画面</h1>
+
+    <form action='' method="POST">{% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="作成する">
+    </form>
+
+{% endblock content %}
