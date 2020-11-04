@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, DetailView, \
                                     CreateView, DeleteView
 from .models import CustomUser, TeachModel
 from django.urls import reverse_lazy
+from .forms import SignupForm
 
 # Create your views here.
 
@@ -34,3 +35,16 @@ class DeleteTeach(DeleteView):
     model = TeachModel
 
     success_url = reverse_lazy('list')
+
+def signupview(request):
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('ttolapp:Index')
+
+    else:
+        form = SignupForm()
+
+    context = {'form':form}
+    return render(request, 'signup.html', context)
