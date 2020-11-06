@@ -126,3 +126,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/image/'
 
 AUTH_USER_MODEL = 'ttolapp.CustomUser'
+
+LOGIN_URL = 'ttolapp:login'
+LOGIN_REDIRECT_URL = 'ttolapp:Index'
+LOGOUT_REDIRECT_URL = 'ttolapp:Index'
