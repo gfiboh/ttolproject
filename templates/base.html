@@ -8,17 +8,20 @@
             True のときはログインしているので、「ログアウト」を表示
             False のときは未ログイン状態なので、「ログイン」を表示
         -->
-        {% if user.is_authenticated %}
-            <p><a href="{% url 'ttolapp:logout' %}">ログアウト</a></p>
-        {% else %}
-            <p><a href="{% url 'ttolapp:login' %}">ログイン</a></p>
-        {% endif %}
         
-        {% block header %}
-        {% endblock header %}
     </head>
 
     <body>
+        {% if user.is_authenticated %}
+        <p><a href="{% url 'ttolapp:profile' %}">ユーザー情報</a></p>
+        <p><a href="{% url 'ttolapp:logout' %}">ログアウト</a></p>
+    {% else %}
+        <p><a href="{% url 'ttolapp:login' %}">ログイン</a></p>
+    {% endif %}
+
+        {% block header %}
+        {% endblock header %}
+
         {% block content %}
         {% endblock content %}
     </body>

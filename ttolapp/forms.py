@@ -2,7 +2,6 @@ from django import forms
 from .models import CustomUser
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.forms import AuthenticationForm
-
 #https://qiita.com/j54854/items/b25a85ddf41b6d8ffab6 参考ページ　ここを見てフォームを作る
 #https://hombre-nuevo.com/python/python0038/ 参考ページ　DoesNotExistの例外処理の仕方　
 #http://retasu0.com/?p=96 参考ページ　ログイン時の表示ページを変える設定
@@ -11,9 +10,9 @@ class SignupForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'password')
+        fields = ('username', 'email', 'password')
         widgets = {
-            'password': forms.PasswordInput(attrs={'placeholder':'パスワード'})
+            'password': forms.PasswordInput(attrs={'placeholder':'パスワード'}),
         }
 
     password2 = forms.CharField(
@@ -26,7 +25,7 @@ class SignupForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs = {'placeholder':'ユーザー名'}
-
+        self.fields['email'].widget.attrs = {'placeholder': 'メールアドレス'}
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
@@ -42,6 +41,11 @@ class SignupForm(forms.ModelForm):
         )
 
         return username
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+
+        return email
 
     def clean_password(self):
         password = self.cleaned_data.get('password')
@@ -77,3 +81,32 @@ class LoginForm(AuthenticationForm):
             'invalid_login': "正しいユーザー名とパスワードを入力してください",
             'inactive':"このアカウントは非アクティブです",
         }
+
+#ユーザー情報変更フォーム（パスワードはここでは変更出来ない）
+#https://django.kurodigi.com/profile-change/ 参考ページ
+class UserChangeForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = (
+            'username',
+            'email',        
+        )
+        #usernameのhelp_textに名前の入力に使える文字の説明のテキストを非表示にする
+        help_texts = {'username': None}
+        
+
+    def __init__(self,username=None, email=None, *args, **kwargs):
+        #dict型のkwargs変数にlabel_suffixでラベル名:とされるのをラベル名->とする
+        kwargs.setdefault('label_suffix', '->')
+        super().__init__(*args, **kwargs)
+
+        #ユーザーの更新前の情報をフォームに入れる
+        if username:
+            self.fields['username'].widget.attrs['value'] = username
+        if email:
+            self.fields['email'].widget.attrs['value'] = email
+
+    def update(self, user):
+        user.username = self.cleaned_data['username']
+        user.email = self.cleaned_data['email']
+        user.save()
