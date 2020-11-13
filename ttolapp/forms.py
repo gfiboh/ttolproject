@@ -1,11 +1,11 @@
 from django import forms
-from .models import CustomUser
+from .models import CustomUser, TeachModel
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.forms import AuthenticationForm
 #https://qiita.com/j54854/items/b25a85ddf41b6d8ffab6 参考ページ　ここを見てフォームを作る
 #https://hombre-nuevo.com/python/python0038/ 参考ページ　DoesNotExistの例外処理の仕方　
 #http://retasu0.com/?p=96 参考ページ　ログイン時の表示ページを変える設定
-
+    
 class SignupForm(forms.ModelForm):
 
     class Meta:
@@ -50,9 +50,9 @@ class SignupForm(forms.ModelForm):
     def clean_password(self):
         password = self.cleaned_data.get('password')
 
-        if len(password) < 5:
+        if len(password) < 8:
             raise forms.ValidationError(
-            '5文字以上で入力してください'
+            '8文字以上で入力してください'
         )
 
         return password

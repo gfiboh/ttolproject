@@ -13,4 +13,9 @@
     {% endif %}
     <p><a href="{% url 'ttolapp:change' %}">ユーザー情報変更へ</a></p>
     <p><a href="{% url 'ttolapp:password_change' %}">パスワード変更へ</a></p>
+    <!--
+        userdeleteビューのURLは'userdelete/<int:pk>/'なので、
+        <a>タグに<int:pk>になるユーザーidを渡している。    
+    -->
+    <p><a href="{% url 'ttolapp:userdelete' user.id %}">アカウント削除へ</a></p>
 {% endblock content %}

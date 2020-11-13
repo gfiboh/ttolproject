@@ -1,5 +1,6 @@
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordChangeDoneView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, DetailView, \
                                     CreateView, DeleteView, FormView
@@ -8,8 +9,13 @@ from .models import CustomUser, TeachModel
 from .forms import SignupForm, LoginForm, UserChangeForm
 #クラス汎用ビューのメソッド一覧
 #https://selfs-ryo.com/detail/django_class-based-view_methods 参考ページ　
+
 #クラス汎用ビューの属性（変数）一覧
+
 #https://selfs-ryo.com/detail/django_class-based-view_attributes 参考ページ
+
+#ビュークラスの一覧ページ　属性、メソッド、親クラスの一覧があるので便利1
+#http://ccbv.co.uk/ 参考ページ
 
 
 # Create your views here.
@@ -25,18 +31,24 @@ class DetailTeach(DetailView):
     template_name = 'detail.html'
     model = TeachModel
 
-
+#フォームを自作してテンプレートに作成者を入力させるようにする(最初から考える)
 class CreateTeach(LoginRequiredMixin, CreateView):
-    template_name = 'create.html'
+    template_name = 'create.html' 
     model = TeachModel
     fields = (
         'title',
         'category',
         'serchword',
-        'content'
-    )
-
+        'content',
+        'teacher'
+    )   
     success_url = reverse_lazy('list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['username_data'] = self.request.user.username
+
+        return context
 
 
 class DeleteTeach(LoginRequiredMixin, DeleteView):
@@ -52,7 +64,7 @@ def signupview(request):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
-            return redirect('ttolapp:Index')
+            return redirect('ttolapp:login')
 
     else:
         form = SignupForm()
@@ -101,14 +113,32 @@ class UserChangeView(LoginRequiredMixin, FormView):
     
 #https://qiita.com/t-iguchi/items/67430e164de0e6701dc8 参考ページ　パスワード変更
 #パスワード変更画面
-"""
-class PsswordChange(LoginRequiredMixin, PasswordChangeView):
+class MyPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     #テンプレートはtemplatesフォルダ内にregistrationフォルダを作成し、
     # その中にpassword_change_form.html,password_change_done.htmlを作った
     template_name = 'registration/password_change_form.html'
-    success_url = reverse_lazy('password_change_done')
+    form_class = PasswordChangeForm
+    success_url = reverse_lazy('ttolapp:password_change_done')
+
+    #テンプレートに各パスワードのラベルとして使うための文字をビューに持たせる
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['old_pass'] = '現在のパスワード'
+        context['new_pass1'] = '新しいパスワード'
+        context['new_pass2'] = '新しいパスワードの再確認'
+
+        return context
 
 #パスワード変更完了画面
-class PasswordChangeDone(LoginRequiredMixin, PasswordChangeDoneView):
+class MyPasswordChangeDone(LoginRequiredMixin, PasswordChangeDoneView):
     template_name = 'registration/password_change_done.html'
-"""
+
+
+#ユーザー削除（退会）画面
+#https://teratail.com/questions/208698 参考ページ
+#https://jyouj.hatenablog.com/entry/2018/11/24/172910 参考ページ　
+#※ただし、カスタムユーザーモデルではUserPassesTestMixinはpkかslugを定義しないとうまくいかない
+class UserDeleteView(LoginRequiredMixin, DeleteView):
+    template_name = 'userdelete.html'
+    model = CustomUser
+    success_url = reverse_lazy('ttolapp:Index')

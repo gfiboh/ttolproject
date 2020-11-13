@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block header %}
+{% endblock header %}
+
+{% block content %}
+    <h1>アカウント削除画面</h1>
+
+    <p>ユーザー名</p>
+    <p>{{object.username}}</p>
+    {% if object.email %}
+        <p>メールアドレス</p>
+        <p>{{object.email}}</p>
+    {% else %}
+        <p>メールアドレス未設定</p>
+    {% endif %}
+    
+    <form action='' method="POST">{% csrf_token %}
+        <input type="submit" value="削除する">
+    </form>
+
+{% endblock content %}

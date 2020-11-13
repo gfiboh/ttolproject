@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block header %}
-<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 {% endblock header %}
 
 {% block content %}
@@ -13,6 +11,7 @@
             <li>{{item.serchword}}</li>
             <li>{{item.teacher}}</li>    
         </ul>
+        <a href="{% url 'ttolapp:detail' item.id %}">{{item.title}}詳細へ</a>
 {% endfor %}
 
 {% endblock content %}

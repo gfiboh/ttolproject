@@ -2,8 +2,9 @@ from django.contrib.auth import views as auth_views
 from django.urls import path, include
 from .views import IndexView, ListTeach, DetailTeach, \
                     CreateTeach, DeleteTeach, signupview, \
-                    Login, UserProfileView, UserChangeView
-from django.urls import reverse_lazy
+                    Login, UserProfileView, UserChangeView, \
+                    MyPasswordChangeView, MyPasswordChangeDone, \
+                    UserDeleteView
 
 
 app_name = 'ttolapp'
@@ -22,6 +23,7 @@ urlpatterns = [
     #パスワード変更用にdjango.contrib.auth.urlsのPasswordChangeView,PasswordChangeDoneViewを使う
     #urlは 'accounts/password_change' で表示される
     #https://django.kurodigi.com/password-change/ 参考ページ　パスワード変更画面
-    path('password_change/', auth_views.PasswordChangeView.as_view(success_url=reverse_lazy('ttolapp:password_change_done')), name = 'password_change'),
-    path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name = 'password_change_done'),
+    path('password_change/', MyPasswordChangeView.as_view(), name = 'password_change'),
+    path('password_change/done/', MyPasswordChangeDone.as_view(), name = 'password_change_done'),
+    path('userdelete/<int:pk>/', UserDeleteView.as_view(), name = 'userdelete'),
 ]

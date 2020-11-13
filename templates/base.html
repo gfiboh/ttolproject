@@ -4,20 +4,24 @@
         <meta charset="UTF-8">
         <titel>Teach x Learn</titel>
         <meta name="description" content="教えることは学ぶこと">
-        <!--user.is_authenticated はユーザーがログイン状態のときにTrueを返す
-            True のときはログインしているので、「ログアウト」を表示
-            False のときは未ログイン状態なので、「ログイン」を表示
-        -->
-        
+        <!-- {%load static %}をいれないとエラーがでる -->
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'style.css' %}">
     </head>
 
     <body>
+        <!--
+            user.is_authenticated はユーザーがログイン状態のときにTrueを返す
+            True のときはログインしているので、「ログアウト」を表示
+            False のときは未ログイン状態なので、「ログイン」を表示
+        -->
         {% if user.is_authenticated %}
-        <p><a href="{% url 'ttolapp:profile' %}">ユーザー情報</a></p>
-        <p><a href="{% url 'ttolapp:logout' %}">ログアウト</a></p>
-    {% else %}
-        <p><a href="{% url 'ttolapp:login' %}">ログイン</a></p>
-    {% endif %}
+            <p><a href="{% url 'ttolapp:profile' %}">ユーザー情報</a></p>
+            <p><a href="{% url 'ttolapp:logout' %}">ログアウト</a></p>
+        {% else %}
+            <p><a href="{% url 'ttolapp:login' %}">ログイン</a></p>
+            <p><a href="{% url 'ttolapp:signup' %}">新規登録</a></p>
+        {% endif %}
 
         {% block header %}
         {% endblock header %}
