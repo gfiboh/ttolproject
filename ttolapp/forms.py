@@ -5,7 +5,21 @@ from django.contrib.auth.forms import AuthenticationForm
 #https://qiita.com/j54854/items/b25a85ddf41b6d8ffab6 参考ページ　ここを見てフォームを作る
 #https://hombre-nuevo.com/python/python0038/ 参考ページ　DoesNotExistの例外処理の仕方　
 #http://retasu0.com/?p=96 参考ページ　ログイン時の表示ページを変える設定
-    
+
+
+class CreateTeachForm(forms.ModelForm):
+
+    class Meta:
+        model = TeachModel
+        fields = [
+            'title',
+            'category',
+            'serchword',
+            'teacher',
+            'content'
+        ]
+
+   
 class SignupForm(forms.ModelForm):
 
     class Meta:

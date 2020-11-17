@@ -5,18 +5,20 @@
 
 {% block content %}
     <h1>作成画面</h1>
+    <p>作成者:{{user.username}}</p>
+
+    <!--
+        http://imagawa.hatenadiary.jp/entry/20120520/1337431689
+        フォームを非表示にするform.as_hiddenを使うと、ユーザーに見られたくない
+        情報を入れながら、隠せる。
+    -->
 
     <form action='' method="POST">{% csrf_token %}
-        <p>タイトル</p>
-        {{object.title}}
-        <p>カテゴリー</p>
-        {{object.category}}
-        <p>キーワード</p>
-        {{object.serchword}}
-        <p>コンテンツ</p>
-        {{object.content}}
-        <p>作成者</p>
-        {{username_data}}
+        <p>{{form.title.label}}:{{form.title}}</p>
+        <p>{{form.category.label}}{{form.category}}</p>
+        <p>{{form.serchword.label}}{{form.serchword}}</p>
+        <p>{{form.content.label}}{{form.content}}</p>
+        <p>{{form.teacher.as_hidden}}</p>
 
         <input type="submit" value="作成する">
     </form>

@@ -6,7 +6,7 @@ from django.views.generic import TemplateView, ListView, DetailView, \
                                     CreateView, DeleteView, FormView
 from django.urls import reverse_lazy
 from .models import CustomUser, TeachModel
-from .forms import SignupForm, LoginForm, UserChangeForm
+from .forms import SignupForm, LoginForm, UserChangeForm, CreateTeachForm
 #クラス汎用ビューのメソッド一覧
 #https://selfs-ryo.com/detail/django_class-based-view_methods 参考ページ　
 
@@ -31,24 +31,31 @@ class DetailTeach(DetailView):
     template_name = 'detail.html'
     model = TeachModel
 
-#フォームを自作してテンプレートに作成者を入力させるようにする(最初から考える)
+#フォームを自作してテンプレートに作成者を入力させるようにする 下に参考ページ
+#https://intellectual-curiosity.tokyo/2019/03/19/django%e3%81%aemodelchoicefield%e3%81%ae%e5%88%9d%e6%9c%9f%e5%80%a4%e3%82%92%e8%a8%ad%e5%ae%9a%e3%81%99%e3%82%8b%e6%96%b9%e6%b3%95/
+#https://code.i-harness.com/ja-jp/q/47469 ForeignKeyの選択肢はクエリセットで取得される　
+#CustomUserオブジェクトのteacherフィールドのクエリセットがChoiceFieldに表示されている このクエリセットを変更できないか？
+"""
+class ClientAdminForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ClientAdminForm, self).__init__(*args, **kwargs)
+        # access object through self.instance...
+        self.fields['base_rate'].queryset = Rate.objects.filter(company=self.instance.company)
+"""
 class CreateTeach(LoginRequiredMixin, CreateView):
     template_name = 'create.html' 
-    model = TeachModel
-    fields = (
-        'title',
-        'category',
-        'serchword',
-        'content',
-        'teacher'
-    )   
-    success_url = reverse_lazy('list')
+    form_class = CreateTeachForm
+    success_url = reverse_lazy('ttolapp:list')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        context['username_data'] = self.request.user.username
+    #フォームのkwargsには辞書型でフォームの初期値initialが入っている
+    #initial内は{'フィールド名':初期値}で値が格納されている
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        #CreateTeachFormのteacherフィールドの初期値へアクセス
+        kwargs['initial'] = {'teacher': self.request.user}
 
-        return context
+        return kwargs
+        
 
 
 class DeleteTeach(LoginRequiredMixin, DeleteView):
@@ -102,6 +109,7 @@ class UserChangeView(LoginRequiredMixin, FormView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         #更新前のユーザー情報をkwargsとして渡す
+        #このkwargs.update()はpythonのupdate()関数で、辞書型のkwargsに追加または更新をしている
         kwargs.update(
             {#self.request.userでログイン中のユーザー情報を取得
                 'username': self.request.user.username,
