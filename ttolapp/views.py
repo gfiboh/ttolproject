@@ -6,7 +6,7 @@ from django.views.generic import TemplateView, ListView, DetailView, \
                                     CreateView, DeleteView, FormView
 from django.urls import reverse_lazy
 from .models import CustomUser, TeachModel
-from .forms import SignupForm, LoginForm, UserChangeForm, CreateTeachForm
+from .forms import SignupForm, LoginForm, UserChangeForm, CreateTeachForm, FindForm
 #クラス汎用ビューのメソッド一覧
 #https://selfs-ryo.com/detail/django_class-based-view_methods 参考ページ　
 
@@ -17,15 +17,21 @@ from .forms import SignupForm, LoginForm, UserChangeForm, CreateTeachForm
 #ビュークラスの一覧ページ　属性、メソッド、親クラスの一覧があるので便利1
 #http://ccbv.co.uk/ 参考ページ
 
+#検索内容を入れるためのグローバル変数 これに検索ワードを入れて、どのページからも検索できるようにする
+search_word = ''
 
 # Create your views here.
+
 
 class IndexView(TemplateView):
     template_name = 'Index.html'
 
+
+
 class ListTeach(ListView):
     template_name = 'list.html'
     model = TeachModel
+
 
 class DetailTeach(DetailView):
     template_name = 'detail.html'
@@ -34,14 +40,6 @@ class DetailTeach(DetailView):
 #フォームを自作してテンプレートに作成者を入力させるようにする 下に参考ページ
 #https://intellectual-curiosity.tokyo/2019/03/19/django%e3%81%aemodelchoicefield%e3%81%ae%e5%88%9d%e6%9c%9f%e5%80%a4%e3%82%92%e8%a8%ad%e5%ae%9a%e3%81%99%e3%82%8b%e6%96%b9%e6%b3%95/
 #https://code.i-harness.com/ja-jp/q/47469 ForeignKeyの選択肢はクエリセットで取得される　
-#CustomUserオブジェクトのteacherフィールドのクエリセットがChoiceFieldに表示されている このクエリセットを変更できないか？
-"""
-class ClientAdminForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(ClientAdminForm, self).__init__(*args, **kwargs)
-        # access object through self.instance...
-        self.fields['base_rate'].queryset = Rate.objects.filter(company=self.instance.company)
-"""
 class CreateTeach(LoginRequiredMixin, CreateView):
     template_name = 'create.html' 
     form_class = CreateTeachForm
@@ -122,8 +120,10 @@ class UserChangeView(LoginRequiredMixin, FormView):
 #https://qiita.com/t-iguchi/items/67430e164de0e6701dc8 参考ページ　パスワード変更
 #パスワード変更画面
 class MyPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+
     #テンプレートはtemplatesフォルダ内にregistrationフォルダを作成し、
     # その中にpassword_change_form.html,password_change_done.htmlを作った
+
     template_name = 'registration/password_change_form.html'
     form_class = PasswordChangeForm
     success_url = reverse_lazy('ttolapp:password_change_done')
@@ -150,3 +150,43 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'userdelete.html'
     model = CustomUser
     success_url = reverse_lazy('ttolapp:Index')
+
+
+#検索ページ リスト表示とフォームを利用する
+class FindListView(ListView):
+    template_name = 'find.html'
+    model = TeachModel
+
+    #フォームのGETリクエストのfindの値で、TeachModel内のオブジェクトをフィルターで検索
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+
+        #フォームの検索ボタンが押されたときにrequest.GETオブジェクトが生成される
+        #request.GETがあればTeachModel内を検索してcontextにクエリセットで渡す
+        
+        if self.request.GET:
+            #変数formにFindFormオブジェクトインスタンスを生成する
+            #さらにFindFormにrequestオブジェクトを渡してforms.pyで定義したfindフィールドに値を渡す
+            form = FindForm(self.request.GET)
+            
+            #フォームのバリデーションチェックをする
+            if form.is_valid():
+                #バリデーションOKならfind_listにクエリセットで検索内容を渡す
+                search_word = form.cleaned_data['find']
+                context['find_list'] = TeachModel.objects.filter(title=search_word)
+
+                #もし検索しても１件もヒットしないときはcontextにmsgの値として'見つかりませんでした'
+                #と表示するための文字列を入れる
+                if context['find_list'].count() == 0:
+                    context['msg'] = '見つかりませんでした'
+
+                #バリデーションNGのときも'見つかりませんでした'と表示する
+            else:
+                context['msg'] = '見つかりませんでした。'
+        
+        return context
+
+  
+
+
+            

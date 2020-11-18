@@ -9,20 +9,36 @@
         <link rel="stylesheet" href="{% static 'style.css' %}">
     </head>
 
-    <body>
+    <header>
+        <p>コンテンツ検索</p>
+        <form action="{% url 'ttolapp:find' %}" method="GET">
+            <input type="search" name = find>
+            <input type="submit" value="検索する">
+        </form>
+    
         <!--
             user.is_authenticated はユーザーがログイン状態のときにTrueを返す
             True のときはログインしているので、「ログアウト」を表示
             False のときは未ログイン状態なので、「ログイン」を表示
         -->
-        {% if user.is_authenticated %}
-            <p><a href="{% url 'ttolapp:profile' %}">ユーザー情報</a></p>
-            <p><a href="{% url 'ttolapp:logout' %}">ログアウト</a></p>
-            <p><a href="{% url 'ttolapp:create' %}">作成</a></p>
-        {% else %}
-            <p><a href="{% url 'ttolapp:login' %}">ログイン</a></p>
-            <p><a href="{% url 'ttolapp:signup' %}">新規登録</a></p>
-        {% endif %}
+        <nav>
+            <ul>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'ttolapp:profile' %}">ユーザー情報</a></li>
+                    <li><a href="{% url 'ttolapp:logout' %}">ログアウト</a></li>
+                    <li><a href="{% url 'ttolapp:create' %}">作成</a></li>
+                {% else %}
+                    <li><a href="{% url 'ttolapp:login' %}">ログイン</a></li>
+                    <li><a href="{% url 'ttolapp:signup' %}">新規登録</a></li>
+                {% endif %}
+                <li><a href="{% url 'ttolapp:find' %}">検索ページへ</a></li>
+            </ul>
+        </nav>
+        
+    </header>
+
+    <body>
+        
 
         {% block header %}
         {% endblock header %}

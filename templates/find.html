@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block header %}
+{% endblock header %}
+
+{% block content %}
+    <h1>検索結果</h1>
+
+    {% if msg %}
+        <p>{{msg}}</p>
+    {% endif %}
+
+    {% for item in find_list %}
+        <p>タイトル:{{item.title}}</p>
+        <p>キーワード:{{item.serchword}}</p>
+        <p>カテゴリ:{{item.get_category_display}}</p>
+        <a href="{% url 'ttolapp:detail' item.id %}">詳細へ</a>
+
+    {% endfor %}
+
+{% endblock content %}

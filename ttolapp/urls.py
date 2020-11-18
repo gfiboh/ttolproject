@@ -4,7 +4,7 @@ from .views import IndexView, ListTeach, DetailTeach, \
                     CreateTeach, DeleteTeach, signupview, \
                     Login, UserProfileView, UserChangeView, \
                     MyPasswordChangeView, MyPasswordChangeDone, \
-                    UserDeleteView
+                    UserDeleteView, FindListView
 
 
 app_name = 'ttolapp'
@@ -26,4 +26,5 @@ urlpatterns = [
     path('password_change/', MyPasswordChangeView.as_view(), name = 'password_change'),
     path('password_change/done/', MyPasswordChangeDone.as_view(), name = 'password_change_done'),
     path('userdelete/<int:pk>/', UserDeleteView.as_view(), name = 'userdelete'),
+    path('find/', FindListView.as_view(), name = 'find'),
 ]

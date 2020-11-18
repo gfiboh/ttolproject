@@ -124,3 +124,13 @@ class UserChangeForm(forms.ModelForm):
         user.username = self.cleaned_data['username']
         user.email = self.cleaned_data['email']
         user.save()
+
+
+class FindForm(forms.Form):
+    #検索用にフィールド名でfindとする
+    find = forms.CharField(
+        max_length=50,
+        label='検索',
+        required=False,
+        widget=forms.TextInput
+        )
