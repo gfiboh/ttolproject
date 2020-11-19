@@ -1,9 +1,10 @@
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordChangeDoneView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, DetailView, \
-                                    CreateView, DeleteView, FormView
+                                    CreateView, DeleteView, UpdateView, FormView
 from django.urls import reverse_lazy
 from .models import CustomUser, TeachModel
 from .forms import SignupForm, LoginForm, UserChangeForm, CreateTeachForm, FindForm
@@ -17,8 +18,6 @@ from .forms import SignupForm, LoginForm, UserChangeForm, CreateTeachForm, FindF
 #ビュークラスの一覧ページ　属性、メソッド、親クラスの一覧があるので便利1
 #http://ccbv.co.uk/ 参考ページ
 
-#検索内容を入れるためのグローバル変数 これに検索ワードを入れて、どのページからも検索できるようにする
-search_word = ''
 
 # Create your views here.
 
@@ -28,22 +27,22 @@ class IndexView(TemplateView):
 
 
 
-class ListTeach(ListView):
+class ListTeachView(ListView):
     template_name = 'list.html'
     model = TeachModel
 
 
-class DetailTeach(DetailView):
+class DetailTeachView(DetailView):
     template_name = 'detail.html'
     model = TeachModel
 
 #フォームを自作してテンプレートに作成者を入力させるようにする 下に参考ページ
 #https://intellectual-curiosity.tokyo/2019/03/19/django%e3%81%aemodelchoicefield%e3%81%ae%e5%88%9d%e6%9c%9f%e5%80%a4%e3%82%92%e8%a8%ad%e5%ae%9a%e3%81%99%e3%82%8b%e6%96%b9%e6%b3%95/
 #https://code.i-harness.com/ja-jp/q/47469 ForeignKeyの選択肢はクエリセットで取得される　
-class CreateTeach(LoginRequiredMixin, CreateView):
+class CreateTeachView(LoginRequiredMixin, CreateView):
     template_name = 'create.html' 
     form_class = CreateTeachForm
-    success_url = reverse_lazy('ttolapp:list')
+    success_url = reverse_lazy('ttolapp:user_contents')
 
     #フォームのkwargsには辞書型でフォームの初期値initialが入っている
     #initial内は{'フィールド名':初期値}で値が格納されている
@@ -53,14 +52,36 @@ class CreateTeach(LoginRequiredMixin, CreateView):
         kwargs['initial'] = {'teacher': self.request.user}
 
         return kwargs
-        
 
-
-class DeleteTeach(LoginRequiredMixin, DeleteView):
-    template_name = 'delete.html'
+#ユーザーが作成したコンテンツを一覧で表示する　この画面から更新・削除するページへ行く
+class UserContentsView(ListView):
+    template_name = 'user_contents.html'
     model = TeachModel
 
-    success_url = reverse_lazy('list')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        teacher_id = self.request.user.id
+        context['user_contents'] = TeachModel.objects.filter(teacher=teacher_id)
+        context['contents_count'] = context['user_contents'].count()
+
+        return context
+
+
+class UpdateTeachView(UpdateView):
+    template_name = 'update.html'
+    model = TeachModel
+    fields = (
+        'title', 'category', 'searchword', 'teacher', 'content'
+        )
+    success_url = reverse_lazy('ttolapp:user_contents')
+
+
+
+class DeleteTeachView(LoginRequiredMixin, DeleteView):
+    template_name = 'delete.html'
+    model = TeachModel
+    success_url = reverse_lazy('ttolapp:user_contents')
+
 
 def signupview(request):
     if request.method == 'POST':
@@ -116,7 +137,8 @@ class UserChangeView(LoginRequiredMixin, FormView):
         )
 
         return kwargs
-    
+
+
 #https://qiita.com/t-iguchi/items/67430e164de0e6701dc8 参考ページ　パスワード変更
 #パスワード変更画面
 class MyPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
@@ -136,6 +158,7 @@ class MyPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
         context['new_pass2'] = '新しいパスワードの再確認'
 
         return context
+
 
 #パスワード変更完了画面
 class MyPasswordChangeDone(LoginRequiredMixin, PasswordChangeDoneView):
@@ -173,16 +196,23 @@ class FindListView(ListView):
             if form.is_valid():
                 #バリデーションOKならfind_listにクエリセットで検索内容を渡す
                 search_word = form.cleaned_data['find']
-                context['find_list'] = TeachModel.objects.filter(title=search_word)
+
+                #検索条件はフィールド名__icontainsで、あいまい検索かつ、アルファベットの大文字・小文字を区別せずに検索
+                #「Q」は複数条件で使えるもの Q(検索条件) とする
+                #Q() | Q() はOR検索　複数条件で「|」パイプを使って行う
+                context['find_list'] = TeachModel.objects.filter(
+                    Q(title__icontains=search_word) | Q(searchword__icontains=search_word)
+                    )
+                context['find_count'] = context['find_list'].count()
 
                 #もし検索しても１件もヒットしないときはcontextにmsgの値として'見つかりませんでした'
                 #と表示するための文字列を入れる
-                if context['find_list'].count() == 0:
+                if context['find_count'] == 0:
                     context['msg'] = '見つかりませんでした'
 
                 #バリデーションNGのときも'見つかりませんでした'と表示する
             else:
-                context['msg'] = '見つかりませんでした。'
+                context['msg'] = '見つかりませんでした'
         
         return context
 

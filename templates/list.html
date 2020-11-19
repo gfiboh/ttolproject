@@ -5,11 +5,11 @@
 
 {% block content %}
 {% for item in object_list %}
-        <p>{{item.title}}</p>
+        <p>タイトル:{{item.title}}</p>
         <ul>
-            <li>{{item.get_category_display}}</li>
-            <li>{{item.serchword}}</li>
-            <li>{{item.teacher}}</li>    
+            <li>カテゴリ:{{item.get_category_display}}</li>
+            <li>キーワード:{{item.searchword}}</li>
+            <li>作成者:{{item.teacher}}</li>    
         </ul>
         <a href="{% url 'ttolapp:detail' item.id %}">{{item.title}}詳細へ</a>
 {% endfor %}

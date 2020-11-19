@@ -15,9 +15,9 @@
 
     <form action='' method="POST">{% csrf_token %}
         <p>{{form.title.label}}:{{form.title}}</p>
-        <p>{{form.category.label}}{{form.category}}</p>
-        <p>{{form.serchword.label}}{{form.serchword}}</p>
-        <p>{{form.content.label}}{{form.content}}</p>
+        <p>{{form.category.label}}:{{form.category}}</p>
+        <p>{{form.searchword.label}}:{{form.searchword}}</p>
+        <p>{{form.content.label}}:{{form.content}}</p>
         <p>{{form.teacher.as_hidden}}</p>
 
         <input type="submit" value="作成する">

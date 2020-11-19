@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block header %}
+{% endblock header %}
+
+{% block content %}
+<h1>{{user.username}}さんのコンテンツ一覧</h1>
+<h4>{{contents_count}}件のコンテンツがあります</h4>
+
+{% for item in user_contents %}
+    <p>タイトル:{{item.title}}</p>
+    <p>カテゴリ:{{item.get_category.display}}</p>
+    <p>キーワード:{{item.searchword}}</p>
+    <p><a href="{% url 'ttolapp:update' item.id %}">更新ページへ</a></p>
+    <P><a href="{% url 'ttolapp:delete' item.id %}">削除ページへ</a></P>
+{% endfor %}
+{% endblock content %}

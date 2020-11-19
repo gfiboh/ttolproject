@@ -14,7 +14,7 @@ class CreateTeachForm(forms.ModelForm):
         fields = [
             'title',
             'category',
-            'serchword',
+            'searchword',
             'teacher',
             'content'
         ]

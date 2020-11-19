@@ -6,11 +6,11 @@
 {% block content %}
     <h1>削除画面</h1>
 
-    <h1>{{object.title}}</h1>
-    <h3>{{object.get_category_display}}</h3>
-    <p>{{object.serchword}}</p>
-    <p>{{object.techer}}</p>
-    <p>{{object.content}}</p>
+    <h1>タイトル:{{object.title}}</h1>
+    <h3>カテゴリ:{{object.get_category_display}}</h3>
+    <p>キーワード:{{object.searchword}}</p>
+    <p>作成者:{{object.techer}}</p>
+    <p>コンテンツ:{{object.content}}</p>
     
     <form action='' method="POST">{% csrf_token %}
         <input type="submit" value="削除する">

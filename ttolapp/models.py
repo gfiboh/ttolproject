@@ -26,12 +26,14 @@ class TeachModel(models.Model):
         choices=CATEGORY
     )
 
-    serchword = models.CharField(
+    searchword = models.CharField(
         verbose_name='キーワード',
         max_length=50, 
         null=True,
         blank=True
     )
+
+    #teacherはCustomUserモデルのid(pk)と紐付けられる
     teacher = models.ForeignKey(
         CustomUser, verbose_name='作成者',
         on_delete = models.CASCADE
