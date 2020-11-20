@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordChangeDoneView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+#from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, DetailView, \
@@ -26,10 +27,14 @@ class IndexView(TemplateView):
     template_name = 'Index.html'
 
 
-
+#ページネーションの参考ページ
+#https://djangobrothers.com/blogs/django_pagination/
+#https://codor.co.jp/django/how-to-make-pagenation
+#request.GETのわかりやすい説明　https://codor.co.jp/django/difference-request-get
 class ListTeachView(ListView):
     template_name = 'list.html'
     model = TeachModel
+    paginate_by = 5
 
 
 class DetailTeachView(DetailView):
@@ -38,7 +43,8 @@ class DetailTeachView(DetailView):
 
 #フォームを自作してテンプレートに作成者を入力させるようにする 下に参考ページ
 #https://intellectual-curiosity.tokyo/2019/03/19/django%e3%81%aemodelchoicefield%e3%81%ae%e5%88%9d%e6%9c%9f%e5%80%a4%e3%82%92%e8%a8%ad%e5%ae%9a%e3%81%99%e3%82%8b%e6%96%b9%e6%b3%95/
-#https://code.i-harness.com/ja-jp/q/47469 ForeignKeyの選択肢はクエリセットで取得される　
+#https://code.i-harness.com/ja-jp/q/47469 ForeignKeyの選択肢はクエリセットで取得される
+#https://sleepless-se.net/2019/07/07/django-generic-listview-pagination/　
 class CreateTeachView(LoginRequiredMixin, CreateView):
     template_name = 'create.html' 
     form_class = CreateTeachForm
