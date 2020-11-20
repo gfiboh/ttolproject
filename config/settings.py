@@ -51,6 +51,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+#HTTPS（SSL）に対応出来るようになったら下のコードをコメントから戻す
+#SECURE_SSL_REDIRECT = True
+
 ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [

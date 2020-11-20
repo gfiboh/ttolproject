@@ -60,17 +60,29 @@ class CreateTeachView(LoginRequiredMixin, CreateView):
         return kwargs
 
 #ユーザーが作成したコンテンツを一覧で表示する　この画面から更新・削除するページへ行く
+#http://ccbv.co.uk/projects/Django/3.0/django.views.generic.list/ListView/
 class UserContentsView(ListView):
     template_name = 'user_contents.html'
     model = TeachModel
+    paginate_by = 5
 
+    #ページネーションのために、ユーザーのコンテンツのクエリセットをpaginator_classに渡す
+    #user_contents.htmlでユーザーのコンテンツを表示するときはpage_objの中にcontents_listが入っている
+    #user_contents.htmlでcontents_listと入れても表示されないので注意
+    def get_paginator(self, contents_list, per_page, orphans=0, allow_empty_first_page=True, **kwargs):
+        teacher_id = self.request.user.id
+        contents_list = TeachModel.objects.filter(teacher=teacher_id)
+
+        return self.paginator_class(contents_list, per_page, orphans=0, allow_empty_first_page=True, **kwargs)
+        
+    #contextにユーザーのコンテンツ数を渡す
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         teacher_id = self.request.user.id
-        context['user_contents'] = TeachModel.objects.filter(teacher=teacher_id)
-        context['contents_count'] = context['user_contents'].count()
+        context['contents_count'] = TeachModel.objects.filter(teacher=teacher_id).count()
 
         return context
+
 
 
 class UpdateTeachView(UpdateView):

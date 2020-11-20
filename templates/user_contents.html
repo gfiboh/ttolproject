@@ -7,11 +7,35 @@
 <h1>{{user.username}}さんのコンテンツ一覧</h1>
 <h4>{{contents_count}}件のコンテンツがあります</h4>
 
-{% for item in user_contents %}
+{% for item in page_obj %}
     <p>タイトル:{{item.title}}</p>
     <p>カテゴリ:{{item.get_category.display}}</p>
     <p>キーワード:{{item.searchword}}</p>
     <p><a href="{% url 'ttolapp:update' item.id %}">更新ページへ</a></p>
     <P><a href="{% url 'ttolapp:delete' item.id %}">削除ページへ</a></P>
 {% endfor %}
+
+<div class="pagination">
+    <!-- 前へ の部分 -->
+    {% if page_obj.has_previous %}
+        <a href="{% url 'ttolapp:user_contents' %}">&laquo; 最初のページ</a>
+        <a href="?page={{ page_obj.previous_page_number }}">&laquo; 前のページ</a>
+    {% else %}
+        <a>&laquo; 最初のページ</a>
+        <a>&laquo; 前のページ</a>
+    {% endif %}
+    
+    <!-- 現在のページ/総ページ数 -->
+    {{page_obj.number}}/{{page_obj.paginator.num_pages}}
+
+    <!-- 次へ の部分 -->
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">次のページ &raquo;</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">最後のページ &raquo;</a>
+    {% else %}
+        <a>次のページ &raquo;</a>
+        <a>最後のページ &raquo;</a>
+    {% endif %}
+</div>
+
 {% endblock content %}
