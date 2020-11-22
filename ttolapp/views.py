@@ -197,44 +197,25 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
 class FindListView(ListView):
     template_name = 'find.html'
     model = TeachModel
+    paginate_by = 5
 
-    #フォームのGETリクエストのfindの値で、TeachModel内のオブジェクトをフィルターで検索
+    #フォームの入力値をバリデーションチェックしてからmodel内を検索
+    #クエリセットに検索結果を入れる
+    def get_queryset(self):
+        form = FindForm(self.request.GET)
+        form.is_valid()
+        search_word = form.cleaned_data['find']
+        queryset = TeachModel.objects.filter(
+                Q(title__icontains=search_word) | Q(searchword__icontains=search_word)
+                )
+        return queryset
+
+    #検索結果によってヒットした件数か見つからなかったことを表示するcontextを渡す
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
+        context['find_count'] = self.get_queryset().count()
 
-        #フォームの検索ボタンが押されたときにrequest.GETオブジェクトが生成される
-        #request.GETがあればTeachModel内を検索してcontextにクエリセットで渡す
-        
-        if self.request.GET:
-            #変数formにFindFormオブジェクトインスタンスを生成する
-            #さらにFindFormにrequestオブジェクトを渡してforms.pyで定義したfindフィールドに値を渡す
-            form = FindForm(self.request.GET)
-            
-            #フォームのバリデーションチェックをする
-            if form.is_valid():
-                #バリデーションOKならfind_listにクエリセットで検索内容を渡す
-                search_word = form.cleaned_data['find']
+        if context['find_count'] == 0:
+            context['msg'] = '見つかりませんでした'
 
-                #検索条件はフィールド名__icontainsで、あいまい検索かつ、アルファベットの大文字・小文字を区別せずに検索
-                #「Q」は複数条件で使えるもの Q(検索条件) とする
-                #Q() | Q() はOR検索　複数条件で「|」パイプを使って行う
-                context['find_list'] = TeachModel.objects.filter(
-                    Q(title__icontains=search_word) | Q(searchword__icontains=search_word)
-                    )
-                context['find_count'] = context['find_list'].count()
-
-                #もし検索しても１件もヒットしないときはcontextにmsgの値として'見つかりませんでした'
-                #と表示するための文字列を入れる
-                if context['find_count'] == 0:
-                    context['msg'] = '見つかりませんでした'
-
-                #バリデーションNGのときも'見つかりませんでした'と表示する
-            else:
-                context['msg'] = '見つかりませんでした'
-        
         return context
-
-  
-
-
-            

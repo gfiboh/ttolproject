@@ -4,20 +4,43 @@
 {% endblock header %}
 
 {% block content %}
-    <h1>検索結果</h1>
-    {% if find_count != 0 %}
-        <h4>{{find_count}}件ヒットしました</h4>
-    {% endif %}
+    <!-- context['msg']が存在するときは検索にヒットしなかった -->
     {% if msg %}
         <p>{{msg}}</p>
+    {% else %}
+        <h1>検索結果</h1>
+        {% if find_count %}
+            <h4>{{find_count}}件ヒット</h4>
+        {% endif %}
+
+        {% for item in page_obj %}
+            <p>タイトル:{{item.title}}</p>
+            <p>カテゴリ:{{item.get_category_display}}</p>
+            <p>キーワード:{{item.searchword}}</p>
+            <a href="{% url 'ttolapp:detail' item.id %}">詳細へ</a>
+        {% endfor %}
+
+        <div class="pagination">
+            <!-- 前へ の部分 -->
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; 最初のページ</a>
+                <a href="?page={{ page_obj.previous_page_number }}">&laquo; 前のページ</a>
+            {% else %}
+                <a>&laquo; 最初のページ</a>
+                <a>&laquo; 前のページ</a>
+            {% endif %}
+            
+            <!-- 現在のページ/総ページ数 -->
+            {{page_obj.number}}/{{page_obj.paginator.num_pages}}
+        
+            <!-- 次へ の部分 -->
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">次のページ &raquo;</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">最後のページ &raquo;</a>
+            {% else %}
+                <a>次のページ &raquo;</a>
+                <a>最後のページ &raquo;</a>
+            {% endif %}
+        </div>
     {% endif %}
-
-    {% for item in find_list %}
-        <p>タイトル:{{item.title}}</p>
-        <p>カテゴリ:{{item.get_category_display}}</p>
-        <p>キーワード:{{item.searchword}}</p>
-        <a href="{% url 'ttolapp:detail' item.id %}">詳細へ</a>
-
-    {% endfor %}
-
 {% endblock content %}
