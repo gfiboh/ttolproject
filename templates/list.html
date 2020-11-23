@@ -1,17 +1,21 @@
 {% extends 'base.html' %}
 
-{% block header %}
-{% endblock header %}
+{% block title %}
+    コンテンツ一覧
+{% endblock title %}
 
 {% block content %}
-
-    {% for item in page_obj %}
-        <p>タイトル:{{item.title}}</p>
-        <p>カテゴリ:{{item.get_category_display}}</p>
-        <p>キーワード:{{item.searchword}}</p>
-        <p>作成者:{{item.teacher}}</p>
-        <a href="{% url 'ttolapp:detail' item.id %}">詳細へ</a>
-    {% endfor %}
+    <div class="contents-list">
+        {% for item in page_obj %}
+            <div class="content-item">
+                <p>タイトル:{{item.title}}</p>
+                <p>カテゴリ:{{item.get_category_display}}</p>
+                <p>キーワード:{{item.searchword}}</p>
+                <p>作成者:{{item.teacher}}</p>
+                <a href="{% url 'ttolapp:detail' item.id %}">詳細へ</a>    
+            </div>
+        {% endfor %}
+    </div>
 
     <div class="pagination">
         <!-- 前へ の部分 -->
@@ -24,8 +28,10 @@
         {% endif %}
         
         <!-- 現在のページ/総ページ数 -->
-        {{page_obj.number}}/{{page_obj.paginator.num_pages}}
-
+        <span class="page-number">
+            {{page_obj.number}}/{{page_obj.paginator.num_pages}}
+        </span>
+        
         <!-- 次へ の部分 -->
         {% if page_obj.has_next %}
             <a href="?page={{ page_obj.next_page_number }}">次のページ &raquo;</a>

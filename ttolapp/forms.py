@@ -129,7 +129,7 @@ class UserChangeForm(forms.ModelForm):
 class FindForm(forms.Form):
     #検索用にフィールド名でfindとする
     find = forms.CharField(
-        max_length=50,
+        max_length=30,
         label='検索',
         required=False,
         widget=forms.TextInput

@@ -12,13 +12,16 @@
         {% if find_count %}
             <h4>{{find_count}}件ヒット</h4>
         {% endif %}
-
-        {% for item in page_obj %}
-            <p>タイトル:{{item.title}}</p>
-            <p>カテゴリ:{{item.get_category_display}}</p>
-            <p>キーワード:{{item.searchword}}</p>
-            <a href="{% url 'ttolapp:detail' item.id %}">詳細へ</a>
-        {% endfor %}
+        <div class="contents-list">
+            {% for item in page_obj %}
+                <div class="content-item">
+                    <p>タイトル:{{item.title}}</p>
+                    <p>カテゴリ:{{item.get_category_display}}</p>
+                    <p>キーワード:{{item.searchword}}</p>
+                    <a href="{% url 'ttolapp:detail' item.id %}">詳細へ</a>
+                </div>
+            {% endfor %}
+        </div>
 
         <div class="pagination">
             <!-- 前へ の部分 -->
@@ -31,8 +34,10 @@
             {% endif %}
             
             <!-- 現在のページ/総ページ数 -->
-            {{page_obj.number}}/{{page_obj.paginator.num_pages}}
-        
+            <span class="page-number">
+                {{page_obj.number}}/{{page_obj.paginator.num_pages}}
+            </span>
+                        
             <!-- 次へ の部分 -->
             {% if page_obj.has_next %}
                 <a href="?page={{ page_obj.next_page_number }}">次のページ &raquo;</a>

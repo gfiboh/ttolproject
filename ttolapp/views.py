@@ -34,7 +34,7 @@ class IndexView(TemplateView):
 class ListTeachView(ListView):
     template_name = 'list.html'
     model = TeachModel
-    paginate_by = 5
+    paginate_by = 6
 
 
 class DetailTeachView(DetailView):
@@ -64,22 +64,19 @@ class CreateTeachView(LoginRequiredMixin, CreateView):
 class UserContentsView(ListView):
     template_name = 'user_contents.html'
     model = TeachModel
-    paginate_by = 5
+    paginate_by = 6
 
-    #ページネーションのために、ユーザーのコンテンツのクエリセットをpaginator_classに渡す
-    #user_contents.htmlでユーザーのコンテンツを表示するときはpage_objの中にcontents_listが入っている
-    #user_contents.htmlでcontents_listと入れても表示されないので注意
-    def get_paginator(self, contents_list, per_page, orphans=0, allow_empty_first_page=True, **kwargs):
+    #ページネーション用にクエリセットをユーザーidでフィルターにかけて渡す
+    def get_queryset(self):
         teacher_id = self.request.user.id
-        contents_list = TeachModel.objects.filter(teacher=teacher_id)
+        queryset = TeachModel.objects.filter(teacher=teacher_id)
 
-        return self.paginator_class(contents_list, per_page, orphans=0, allow_empty_first_page=True, **kwargs)
-        
+        return queryset
+
     #contextにユーザーのコンテンツ数を渡す
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        teacher_id = self.request.user.id
-        context['contents_count'] = TeachModel.objects.filter(teacher=teacher_id).count()
+        context['contents_count'] = self.get_queryset().count()
 
         return context
 
@@ -197,7 +194,7 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
 class FindListView(ListView):
     template_name = 'find.html'
     model = TeachModel
-    paginate_by = 5
+    paginate_by = 6
 
     #フォームの入力値をバリデーションチェックしてからmodel内を検索
     #クエリセットに検索結果を入れる

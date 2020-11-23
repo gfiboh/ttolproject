@@ -1,19 +1,26 @@
 {% extends 'base.html' %}
 
+{% block title %}
+    {{user.username}}さんのコンテンツ一覧
+{% endblock title %}
+
 {% block header %}
 {% endblock header %}
 
 {% block content %}
-<h1>{{user.username}}さんのコンテンツ一覧</h1>
-<h4>{{contents_count}}件のコンテンツがあります</h4>
+    <h4>{{contents_count}}件のコンテンツがあります</h4>
 
-{% for item in page_obj %}
-    <p>タイトル:{{item.title}}</p>
-    <p>カテゴリ:{{item.get_category.display}}</p>
-    <p>キーワード:{{item.searchword}}</p>
-    <p><a href="{% url 'ttolapp:update' item.id %}">更新ページへ</a></p>
-    <P><a href="{% url 'ttolapp:delete' item.id %}">削除ページへ</a></P>
-{% endfor %}
+    <div class="contents-list">
+        {% for item in page_obj %}
+            <div class="content-item">
+                <p>タイトル:{{item.title}}</p>
+                <p>カテゴリ:{{item.get_category.display}}</p>
+                <p>キーワード:{{item.searchword}}</p>
+                <p><a href="{% url 'ttolapp:update' item.id %}">更新ページへ</a></p>
+                <P><a href="{% url 'ttolapp:delete' item.id %}">削除ページへ</a></P>
+            </div>
+        {% endfor %}
+    </div>
 
 <div class="pagination">
     <!-- 前へ の部分 -->
@@ -26,7 +33,9 @@
     {% endif %}
     
     <!-- 現在のページ/総ページ数 -->
-    {{page_obj.number}}/{{page_obj.paginator.num_pages}}
+    <span class="page-number">
+        {{page_obj.number}}/{{page_obj.paginator.num_pages}}
+    </span>
 
     <!-- 次へ の部分 -->
     {% if page_obj.has_next %}

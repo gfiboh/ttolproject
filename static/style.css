@@ -1,0 +1,116 @@
+@charset "UTF-8";
+
+/*
+    メインカラーはスカイブルー、背景は白、文字は黒で構成
+    強調したい文字はスカイブルーにする
+*/
+
+/* ----- 共通部分 ---------------------------- */
+
+
+    html {
+        font-size: 100%;
+    }
+
+    body {
+        font-family: "Yu Gotic Medium", "游ゴシック Medium", YuGothic, "游ゴシック体", "ヒラギノ角ゴ Pro W3", sans-serif;
+        line-height: 1.7;
+        color: black;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    img {
+        max-width: 100%;
+    }
+
+    .contents-sidebar {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 50px;
+    }
+
+/* ------ HEADER ------------------------------------------------------- */
+
+    header {
+        background-color: skyblue;
+        text-align: center;
+        padding: 26px 0;
+    }
+
+
+/* ------- FOOTER ------------------------------------------------------ */
+
+    footer {
+        background-color: skyblue;
+        text-align: center;
+        padding: 26px 0;
+    }
+
+/* ------- トップページ ------------------------------------------------- */
+    /* クラス名だけでは反映されなかったので、タグ名から書いている */
+    img.logo {
+        width: 250px;
+        height: 150px;
+        margin-top: 100px;
+    }
+
+    .logo-position {
+        text-align: center;
+        margin-bottom: 0px;
+    }
+
+    .top-msg {
+        text-align: center;
+        margin-top: 150px;
+    }
+
+    .container {
+        display: grid;
+        grid-template-columns: 300px 500px;
+        gap: 50px 10px 10px 10px;
+    }
+
+    .item {
+        padding: 10px;
+    }
+
+/* --------- メインコンテンツ ----------------------------------------- */
+
+    article {
+        width: 74%;
+    }
+
+
+/* --------- サイドバー ----------------------------------------------- */
+    aside {
+        width: 22%;
+    }
+
+
+/* --------- コンテンツ一覧 -------------------------------------------- */
+    .contents-list {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: space-around;
+        height: 100vh;
+    }
+
+    .content-item {
+        text-align: center;
+        margin: 30px;
+        padding: 10px 30px;
+    }
+
+    .pagination {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .page-number {
+        margin: 10px;
+    }

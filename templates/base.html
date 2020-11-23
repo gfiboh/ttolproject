@@ -1,51 +1,69 @@
+<!--
+    テンプレートタグの使い方のリファレンス　参考ページ
+    https://djangoproject.jp/doc/ja/1.0/topics/templates.html#template-inheritance
+-->
+
 <!DOCTYPE html>
 <html ja>
     <head>
         <meta charset="UTF-8">
-        <titel>Teach x Learn</titel>
+        <titel>
+            {% block title %}Teach x Learn{% endblock title %}    
+        </titel>
         <meta name="description" content="教えることは学ぶこと">
         <!-- {%load static %}をいれないとエラーがでる -->
         {% load static %}
+        <link rel="stylesheet" href="https://unpkg.com/ress/dict/ress.min.css">
         <link rel="stylesheet" href="{% static 'style.css' %}">
     </head>
 
     <header>
-        <p>コンテンツ検索</p>
-        <form action="{% url 'ttolapp:find' %}" method="GET">
-            <input type="search" name = "find">
-            <input type="submit" value="検索する">
-        </form>
-    
-        <!--
-            user.is_authenticated はユーザーがログイン状態のときにTrueを返す
-            True のときはログインしているので、「ログアウト」を表示
-            False のときは未ログイン状態なので、「ログイン」を表示
-        -->
-        <nav>
-            <ul>
-                {% if user.is_authenticated %}
-                    <li>ようこそ{{user.username}}さん</li>
-                    <li><a href="{% url 'ttolapp:profile' %}">ユーザー情報</a></li>
-                    <li><a href="{% url 'ttolapp:logout' %}">ログアウト</a></li>
-                    <li><a href="{% url 'ttolapp:create' %}">作成</a></li>
-                    <li><a href="{% url 'ttolapp:user_contents' %}">{{user.username}}さんのコンテンツ一覧</a></li>
-                {% else %}
-                    <li><a href="{% url 'ttolapp:login' %}">ログイン</a></li>
-                    <li><a href="{% url 'ttolapp:signup' %}">新規登録</a></li>
-                {% endif %}
-                <li><a href="{% url 'ttolapp:list' %}">コンテンツ一覧へ</a></li>
-            </ul>
-        </nav>
-        
-    </header>
-
-    <body>
-        
 
         {% block header %}
         {% endblock header %}
 
-        {% block content %}
-        {% endblock content %}
+    </header>
+
+    <body>
+
+        <div class="contents-sidebar">
+            <article>
+                <!-- メインコンテンツ -->
+                {% block content %}
+                {% endblock content %}        
+            </article>
+
+            <aside>
+                <!-- サイドバー部分 -->
+                {% block sidebar %}
+                <p>コンテンツ検索</p>
+                <form action="{% url 'ttolapp:find' %}"  method="GET">
+                    <input type="search" name = "find" class="search-form" maxlength="30">
+                    <input type="submit" value="検索する">
+                </form>
+        
+                <!-- user.is_authenticated はログインしていればTrueを返す -->
+                <ul>
+                    {% if user.is_authenticated %}
+                        <li>ようこそ{{user.username}}さん</li>
+                        <li><a href="{% url 'ttolapp:profile' %}">ユーザー情報</a></li>
+                        <li><a href="{% url 'ttolapp:logout' %}">ログアウト</a></li>
+                        <li><a href="{% url 'ttolapp:create' %}">作成</a></li>
+                        <li><a href="{% url 'ttolapp:user_contents' %}">{{user.username}}さんのコンテンツ一覧</a></li>
+                    {% else %}
+                        <li><a href="{% url 'ttolapp:login' %}">ログイン</a></li>
+                        <li><a href="{% url 'ttolapp:signup' %}">新規登録</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'ttolapp:Index' %}">TOPへ</a></li>
+                    <li><a href="{% url 'ttolapp:list' %}">コンテンツ一覧へ</a></li>
+                </ul>
+                {% endblock sidebar %}
+            </aside>
+        </div>
     </body>
+
+    <footer>
+        {% block footer %}
+        {% endblock footer %}
+    </footer>
 </html>
