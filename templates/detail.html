@@ -4,11 +4,22 @@
 {% endblock header %}
 
 {% block content %}
-    
-    <h1>{{object.title}}</h1>
-    <h3>{{object.get_category_display}}</h3>
-    <p>{{object.searchword}}</p>
-    <p>{{object.techer}}</p>
-    <p>{{object.content}}</p>
+    <div class="detail-container">
+        <div class="detail-label">
+            <p>タイトル:</p>
+            <p>カテゴリ:</p>
+            <p>キーワード:</p>
+            <p>作成者:</p>
+        </div>
+        <div class="detail-item">
+          <p>{{object.title}}</h3>
+          <p>{{object.get_category_display}}</p>
+          <p>{{object.searchword}}</p>        
+          <p>{{object.teacher}}</p>    
+        </div>
+        <div class="detail-content">
+          <p>{{object.content}}</p>    
+        </div>
+    </div>  
 
 {% endblock content %}

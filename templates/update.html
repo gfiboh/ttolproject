@@ -6,13 +6,24 @@
 {% block content %}
     <h1>コンテンツ更新画面</h1>
 
-    <form method="POST">{% csrf_token %}
-        <p>{{form.title.label}}:{{form.title}}</p>
-        <p>{{form.category.label}}:{{form.category}}</p>
-        <p>{{form.searchword.label}}:{{form.searchword}}</p>
-        <p>{{form.content.label}}:{{form.content}}</p>
-        <p>{{form.teacher.as_hidden}}</p>
-        <input type="submit" value="更新する">
-    </form>
-
+    <div class="create-container">
+        <div class="create-label">
+            <p>作成者:</p>
+            <p>タイトル:</p>
+            <p>カテゴリ:</p>
+            <p>キーワード:</p>
+        </div>
+        <div class="create-item">
+            <form method="POST">{% csrf_token %}
+                <p>{{user.username}}</p>
+                <p>{{form.title}}</p>
+                <p>{{form.category}}</p>
+                <p>{{form.searchword}}</p>
+                <p>{{form.teacher.as_hidden}}</p>
+                <p>{{form.content}}</p> 
+                <input type="submit" value="更新する">
+            </form>    
+        </div>
+    </div>
+    
 {% endblock content %}

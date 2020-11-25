@@ -4,20 +4,24 @@
 {% endblock header %}
 
 {% block content %}
-<h1>ユーザー登録画面</h1>
+<div class="userdata-container">
+    <div class="userdata-item">
+        <h1>ユーザー登録画面</h1>
 
-<form method="POST">{% csrf_token %}
-    {% for field in form %}
-        <p>{{field}}</p>
+        <form class="form-area" method="POST">{% csrf_token %}
+            {% for field in form %}
+                <p>{{field}}</p>
 
-        {% if field.errors %}
-            <p>{{field.errors.0}}</p>
-        {% endif %}
-    {% endfor %}
+                {% if field.errors %}
+                    <p>{{field.errors.0}}</p>
+                {% endif %}
+            {% endfor %}
 
-    <input type='submit' value="登録する">
-</form>
-
+            <p class="p-msg">※メールアドレスは必須ではありません</p>
+            <input class="button" type='submit' value="登録する">
+        </form>
+    </div>
+</div>
 {% if form.non_field_errors %}
     <ul>
         {% for non_field_error in form.non_field_errors %}

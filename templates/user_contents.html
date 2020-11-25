@@ -16,6 +16,7 @@
                 <p>タイトル:{{item.title}}</p>
                 <p>カテゴリ:{{item.get_category.display}}</p>
                 <p>キーワード:{{item.searchword}}</p>
+                <p><a href="{% url 'ttolapp:detail' item.id %}">詳細ページへ</a></p>
                 <p><a href="{% url 'ttolapp:update' item.id %}">更新ページへ</a></p>
                 <P><a href="{% url 'ttolapp:delete' item.id %}">削除ページへ</a></P>
             </div>

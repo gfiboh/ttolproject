@@ -4,26 +4,31 @@
 {% endblock header %}
 
 {% block content %}
-<h1>ログイン画面</h1>
+<div class="userdata-container">
+    <div class="userdata-item">
+        <h1>ログイン画面</h1>
 
-<form method="POST">{% csrf_token %}
-    {% for field in form %}
-        <p>{{field}}</p>
+        <form class="form-area" method="POST">{% csrf_token %}
+            {% for field in form %}
+                <p>{{field}}</p>
 
-        {% if field.errors %}
-            <p>{{field.errors.0}}</p>
-        {% endif %}
-    {% endfor %}
+                {% if field.errors %}
+                    <p>{{field.errors.0}}</p>
+                {% endif %}
+            {% endfor %}
 
-    <input type='submit' value="ログイン">
-</form>
-
-{% if form.non_field_errors %}
-    <ul>
-        {% for non_field_error in form.non_field_errors %}
-            <li>{{non_field_error}}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
+            <input class="button" type='submit' value="ログイン">
+        </form>
+    </div>
+</div>
+<div class="error-msg">
+    {% if form.non_field_errors %}
+        <ul>
+            {% for non_field_error in form.non_field_errors %}
+                <li>{{non_field_error}}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
 
 {% endblock content %}

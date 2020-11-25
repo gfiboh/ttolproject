@@ -4,16 +4,27 @@
 {% endblock header %}
 
 {% block content %}
-    <h1>削除画面</h1>
+<h1>削除画面</h1>
 
-    <h1>タイトル:{{object.title}}</h1>
-    <h3>カテゴリ:{{object.get_category_display}}</h3>
-    <p>キーワード:{{object.searchword}}</p>
-    <p>作成者:{{object.techer}}</p>
-    <p>コンテンツ:{{object.content}}</p>
-    
-    <form action='' method="POST">{% csrf_token %}
-        <input type="submit" value="削除する">
-    </form>
+<div class="detail-container">
+    <div class="detail-label">
+        <p>タイトル:</p>
+        <p>カテゴリ:</p>
+        <p>キーワード:</p>
+        <p>作成者:</p>
+    </div>
+    <div class="detail-item">
+        <p>{{object.title}}</p>
+        <p>{{object.get_category_display}}</p>
+        <p>{{object.searchword}}</p>
+        <p>{{object.teacher}}</p>
+        <form action='' method="POST">{% csrf_token %}
+            <input type="submit" value="削除する">
+        </form>    
+    </div>
+    <div class="detail-content">
+        <p>{{object.content}}</p>    
+    </div>
+</div>
 
 {% endblock content %}

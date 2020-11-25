@@ -8,7 +8,7 @@ from django.views.generic import TemplateView, ListView, DetailView, \
                                     CreateView, DeleteView, UpdateView, FormView
 from django.urls import reverse_lazy
 from .models import CustomUser, TeachModel
-from .forms import SignupForm, LoginForm, UserChangeForm, CreateTeachForm, FindForm
+from .forms import SignupForm, LoginForm, UserChangeForm, CreateTeachForm, FindForm, CategoryFindForm
 #クラス汎用ビューのメソッド一覧
 #https://selfs-ryo.com/detail/django_class-based-view_methods 参考ページ　
 
@@ -31,10 +31,39 @@ class IndexView(TemplateView):
 #https://djangobrothers.com/blogs/django_pagination/
 #https://codor.co.jp/django/how-to-make-pagenation
 #request.GETのわかりやすい説明　https://codor.co.jp/django/difference-request-get
-class ListTeachView(ListView):
+class ListTeachView(ListView, FormView):
     template_name = 'list.html'
     model = TeachModel
+    form_class = CategoryFindForm
     paginate_by = 6
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['contents_count'] = self.get_queryset().count()
+
+        return context
+    
+
+class CategoryListView(ListView, FormView):
+    template_name = 'category.html'
+    model = TeachModel
+    form_class = CategoryFindForm
+    paginate_by = 6
+
+
+    def get_queryset(self):
+        print(self.request.GET)
+        choice = self.request.GET['category_choice']
+        queryset = TeachModel.objects.filter(category=choice)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['contents_count'] = self.get_queryset().count()
+
+        return context
+
 
 
 class DetailTeachView(DetailView):

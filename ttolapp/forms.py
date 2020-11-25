@@ -19,6 +19,12 @@ class CreateTeachForm(forms.ModelForm):
             'content'
         ]
 
+        widgets = {
+            'title': forms.TextInput(attrs={'placeholder':'タイトル'}),
+            'searchword': forms.TextInput(attrs={'placeholder':'キーワード'}),
+            'content': forms.Textarea(attrs={'placeholder':'あなたの知識をいれてください'})
+        }
+
    
 class SignupForm(forms.ModelForm):
 
@@ -105,6 +111,11 @@ class UserChangeForm(forms.ModelForm):
             'username',
             'email',        
         )
+        widgets = {
+            'username': forms.TextInput(attrs={'placeholder':'新しいユーザー名'}),
+            'email':  forms.EmailInput(attrs={'placeholder':'新しいメールアドレス'})
+        }
+
         #usernameのhelp_textに名前の入力に使える文字の説明のテキストを非表示にする
         help_texts = {'username': None}
         
@@ -134,3 +145,18 @@ class FindForm(forms.Form):
         required=False,
         widget=forms.TextInput
         )
+
+
+class CategoryFindForm(forms.Form):
+
+    CATEGORY = (
+        ('japanese','国語'), ('english', '英語'), ('society','社会'),
+        ('math','数学'), ('physics','物理'), ('chemistry', '化学'),
+        ('biology', '生物'), ('trivia','雑学'), ('howtostudy','勉強法'),
+        ('etc.', 'その他')
+        )
+
+    category_choice = forms.ChoiceField(
+        label='カテゴリ選択',
+        choices=CATEGORY
+    )

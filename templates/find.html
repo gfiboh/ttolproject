@@ -10,7 +10,7 @@
     {% else %}
         <h1>検索結果</h1>
         {% if find_count %}
-            <h4>{{find_count}}件ヒット</h4>
+            <h4 class="find-cnt">{{find_count}}件ヒット</h4>
         {% endif %}
         <div class="contents-list">
             {% for item in page_obj %}

@@ -37,25 +37,27 @@
                 <!-- サイドバー部分 -->
                 {% block sidebar %}
                 <p>コンテンツ検索</p>
-                <form action="{% url 'ttolapp:find' %}"  method="GET">
-                    <input type="search" name = "find" class="search-form" maxlength="30">
-                    <input type="submit" value="検索する">
+                <form action="{% url 'ttolapp:find' %}" method="GET">
+                    <input type="search" name = "find" class="search-form" maxlength="30"><br>
+                    <input type="submit" class="search-button" value="検索する">
                 </form>
         
                 <!-- user.is_authenticated はログインしていればTrueを返す -->
-                <ul>
+                <ul class="side-list">                    
                     {% if user.is_authenticated %}
-                        <li>ようこそ{{user.username}}さん</li>
+                        <li><span class="user-welcome">ようこそ{{user.username}}さん</span></li>
+                        <li><a href="{% url 'ttolapp:Index' %}">TOPへ</a></li>
+                        <li><a href="{% url 'ttolapp:list' %}">コンテンツ一覧へ</a></li>    
                         <li><a href="{% url 'ttolapp:profile' %}">ユーザー情報</a></li>
                         <li><a href="{% url 'ttolapp:logout' %}">ログアウト</a></li>
                         <li><a href="{% url 'ttolapp:create' %}">作成</a></li>
                         <li><a href="{% url 'ttolapp:user_contents' %}">{{user.username}}さんのコンテンツ一覧</a></li>
                     {% else %}
+                        <li><a href="{% url 'ttolapp:Index' %}">TOPへ</a></li>
+                        <li><a href="{% url 'ttolapp:list' %}">コンテンツ一覧へ</a></li>
                         <li><a href="{% url 'ttolapp:login' %}">ログイン</a></li>
                         <li><a href="{% url 'ttolapp:signup' %}">新規登録</a></li>
                     {% endif %}
-                    <li><a href="{% url 'ttolapp:Index' %}">TOPへ</a></li>
-                    <li><a href="{% url 'ttolapp:list' %}">コンテンツ一覧へ</a></li>
                 </ul>
                 {% endblock sidebar %}
             </aside>

@@ -4,7 +4,7 @@
 {% endblock title %}
 
 {% block content %}
-<h1>コンテンツ一覧</h1>
+<h1>カテゴリごとの一覧</h1>
 <h4>{{contents_count}}件のコンテンツ</h4>
 
 <form class="category-form" action="{% url 'ttolapp:category' %}" method="GET">{% csrf_token %}
@@ -26,7 +26,7 @@
     <div class="pagination">
         <!-- 前へ の部分 -->
         {% if page_obj.has_previous %}
-            <a href="{% url 'ttolapp:list' %}">&laquo; 最初のページ</a>
+            <a href="{% url 'ttolapp:category' %}">&laquo; 最初のページ</a>
             <a href="?page={{ page_obj.previous_page_number }}">&laquo; 前のページ</a>
         {% else %}
             <a>&laquo; 最初のページ</a>

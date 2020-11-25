@@ -4,26 +4,29 @@
 {% endblock header %}
 
 {% block content %}
-<h1>ユーザー情報変更画面</h1>
+<div class="userdata-container">
+    <div class="userdata-item">
+        <h1>ユーザー情報変更画面</h1>
+        <form class="form-area" method="POST">{% csrf_token %}
+            {% for field in form %}
+                <p>{{field}}</p>
 
-<p>※変更する際はユーザー名の変更が必須です</p>
-<form method="POST">{% csrf_token %}
-    {% for field in form %}
-        <p>{{field}}</p>
+                {% if field.errors %}
+                    <p>{{field.errors.0}}</p>
+                {% endif %}
+            {% endfor %}
+            <p>※ユーザー名の変更は必須です</p>
+            <input class="button" type="submit" value="変更する">
+        </form>
 
-        {% if field.errors %}
-            <p>{{field.errors.0}}</p>
+        {% if form.non_field_errors %}
+            <ul>
+                {% for non_field_error in form.non_field_errors %}
+                    <li>{{non_field_error}}</li>
+                {% endfor %}
+            </ul>
         {% endif %}
-    {% endfor %}
-    <input type="submit" value="変更する">
-</form>
-
-{% if form.non_field_errors %}
-    <ul>
-        {% for non_field_error in form.non_field_errors %}
-            <li>{{non_field_error}}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
+    </div>
+</div>
 
 {% endblock content %}
