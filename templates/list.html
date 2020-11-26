@@ -14,10 +14,12 @@
     <div class="contents-list">
         {% for item in page_obj %}
             <div class="content-item">
-                <p>タイトル:{{item.title}}</p>
-                <p>カテゴリ:{{item.get_category_display}}</p>
-                <p>キーワード:{{item.searchword}}</p>
-                <p>作成者:{{item.teacher}}</p>
+                <p class="content-title">{{item.title}}</p>
+                <div class="content-labels">
+                    <p>カテゴリ　: {{item.get_category_display}}</p>
+                    <p>キーワード: {{item.searchword}}</p>
+                    <p>作成者　　: {{item.teacher}}</p>    
+                </div>
                 <a href="{% url 'ttolapp:detail' item.id %}">詳細へ</a>    
             </div>
         {% endfor %}

@@ -18,10 +18,12 @@
                     <p>{{object.email}}</p>
                 {% else %}
                     <p>メールアドレス未設定</p>
-                {% endif %}  
+                {% endif %}
                 <input type="submit" value="削除する">
             </form>
         </div>
     </div>
+    <p class="p-msg">※{{user.username}}さんが作ったコンテンツはすべて削除されます</p>  
+
 
 {% endblock content %}

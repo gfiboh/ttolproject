@@ -40,12 +40,39 @@
         text-align: center;
     }
 
+    input {
+        border: thin solid #AAADAD;
+        border-radius: 6px;
+        font-size: 13px;
+        height: 20px;
+    }
+
+    input[type=text] {
+        width: 300px;
+    }
+
+
+    textarea {
+        width: 600px;
+        height: 300px;
+        border: thin solid #AAADAD;
+        border-radius: 6px;
+        font-size: 15px;
+        white-space: pre-wrap;
+
+    }
+
+    .content-title {
+        font-weight: bold;
+    }
 /* ------ HEADER ------------------------------------------------------- */
 
     header {
         background-color: skyblue;
         text-align: center;
-        padding: 26px 0;
+        padding: 20px 0;
+        border: 5px solid skyblue;
+        border-radius: 6px;
     }
 
 
@@ -54,7 +81,9 @@
     footer {
         background-color: skyblue;
         text-align: center;
-        padding: 26px 0;
+        padding: 20px 0;
+        border: 5px solid skyblue;
+        border-radius: 6px;
     }
 
 /* ------- トップページ ------------------------------------------------- */
@@ -122,7 +151,7 @@
     }
 
     .user-welcome {
-        border-bottom: 5px solid skyblue;
+        border-bottom: 2px solid skyblue;
     }
 
 
@@ -132,23 +161,26 @@
         text-align: center;
     }
 
+    /*
+        グリッドのレイアウト参考ページ　https://qiita.com/kura07/items/e633b35e33e43240d363
+        https://developer.mozilla.org/ja/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout
+    */
     .contents-list {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: flex-start;
-        height: 80vh;
-        width: 100vh;
-        padding-left: 200px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 10px;
     }
 
     .content-item {
         text-align: center;
-        margin: 30px;
-        padding: 10px 30px;
         border: thin solid skyblue;
         border-radius: 6px;
+    }
+
+    .content-labels {
+        text-align: left;
+        margin-left: 100px;
     }
 
     .category-form {
@@ -191,13 +223,14 @@
     }
 
 
-    .userdata-item {
-        text-align: left;
-    }
-
     .userdata-item form {
+        text-align: left;
         border: 2 solid #AAADAD;
         border-radius: 6px;
+    }
+
+    .userdata-item input[type=text] {
+        width: auto;
     }
 
     .form-area {
@@ -214,6 +247,7 @@
     }
 
     .p-msg {
+        text-align: center;
         font-size: 13px;
     }
 
@@ -229,68 +263,27 @@
         list-style: none;
     }
 
-    input {
-        border: thin solid #AAADAD;
-        border-radius: 6px;
-    }
-
-    textarea {
-        width: 400px;
-        height: 300px;
-        border: thin solid #AAADAD;
-        border-radius: 6px;
-    }
 
 /* ---------- コンテンツ詳細画面 -------------------------------------------------------- */
 
-    .detail-container {
-        display: flex;
-        justify-content: left;
-        padding-left: 200px;
-    }
-
-    .detail-label {
-        text-align: right;
-        margin-top: 50px;
-        margin-right: 20px;
-    }
-
-
-    .detail-item {
-        text-align: right;
-        margin-top: 50px;
-        margin-right: 30px;
-        font-weight: bold;
-    }
-
     .detail-content {
-        text-align: justify;
-        border: thin solid #AAADAD;
-        border-radius: 6px;
-        width: 400px;
-        height: 300px;
-        margin-top: 20px;
+        margin-left: 400px;
+        margin-bottom: 50px;
+        text-align: left;
+    }
+
+    .detail-texts {
+        margin-left: 200px;
+        text-align: left;
+        border-top: 2px solid skyblue;
+
     }
 
 /* ---------- コンテンツ作成・更新 ---------------------------------- */
 
-    .create-container {
-        display: flex;
-        justify-content: left;
-        padding-left: 200px;
+    .create-content {
+        margin-left: 400px;
     }
 
-    .create-label {
-        text-align: right;
-        margin-top: 20px;
-        margin-right: 20px;
-    }
-
-    .create-item {
-        text-align: left;
-        margin-top: 20px;
-        margin-right: 30px;
-        font-weight: bold;
-    }
 
 

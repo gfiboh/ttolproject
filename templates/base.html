@@ -47,11 +47,11 @@
                     {% if user.is_authenticated %}
                         <li><span class="user-welcome">ようこそ{{user.username}}さん</span></li>
                         <li><a href="{% url 'ttolapp:Index' %}">TOPへ</a></li>
-                        <li><a href="{% url 'ttolapp:list' %}">コンテンツ一覧へ</a></li>    
+                        <li><a href="{% url 'ttolapp:list' %}">コンテンツ一覧へ</a></li>  
+                        <li><a href="{% url 'ttolapp:user_contents' %}">{{user.username}}さんのコンテンツ一覧</a></li>  
                         <li><a href="{% url 'ttolapp:profile' %}">ユーザー情報</a></li>
                         <li><a href="{% url 'ttolapp:logout' %}">ログアウト</a></li>
                         <li><a href="{% url 'ttolapp:create' %}">作成</a></li>
-                        <li><a href="{% url 'ttolapp:user_contents' %}">{{user.username}}さんのコンテンツ一覧</a></li>
                     {% else %}
                         <li><a href="{% url 'ttolapp:Index' %}">TOPへ</a></li>
                         <li><a href="{% url 'ttolapp:list' %}">コンテンツ一覧へ</a></li>

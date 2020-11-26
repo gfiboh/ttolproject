@@ -6,25 +6,18 @@
 {% block content %}
 <h1>削除画面</h1>
 
-<div class="detail-container">
-    <div class="detail-label">
-        <p>タイトル:</p>
-        <p>カテゴリ:</p>
-        <p>キーワード:</p>
-        <p>作成者:</p>
-    </div>
-    <div class="detail-item">
-        <p>{{object.title}}</p>
-        <p>{{object.get_category_display}}</p>
-        <p>{{object.searchword}}</p>
-        <p>{{object.teacher}}</p>
-        <form action='' method="POST">{% csrf_token %}
-            <input type="submit" value="削除する">
-        </form>    
-    </div>
-    <div class="detail-content">
-        <p>{{object.content}}</p>    
-    </div>
+<div class="detail-content">
+    <p>タイトル　: <span class="content-title">{{object.title}}</span></h3>
+    <p>カテゴリ　: {{object.get_category_display}}</p>
+    <p>キーワード: {{object.searchword}}</p>        
+    <p>作成者　　: {{object.teacher}}</p>
 </div>
+<div class="detail-texts">
+    <!-- {{text|linebreaksbr}} とすることで、入力された改行をそのまま表示するようにできる -->
+    <p>{{object.content|linebreaksbr}}</p> 
+    <form action='' method="POST">{% csrf_token %}
+        <input type="submit" value="削除する">
+    </form>               
+</div>    
 
 {% endblock content %}
