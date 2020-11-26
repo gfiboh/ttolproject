@@ -26,11 +26,11 @@
     <div class="pagination">
         <!-- 前へ の部分 -->
         {% if page_obj.has_previous %}
-            <a href="{% url 'ttolapp:category' %}">&laquo; 最初のページ</a>
-            <a href="?page={{ page_obj.previous_page_number }}">&laquo; 前のページ</a>
+            <a href="{% url 'ttolapp:category' %}">&laquo; 最初へ</a>
+            <a href="?page={{ page_obj.previous_page_number }}">&laquo; 前へ</a>
         {% else %}
-            <a>&laquo; 最初のページ</a>
-            <a>&laquo; 前のページ</a>
+            <a>&laquo; 最初へ</a>
+            <a>&laquo; 前へ</a>
         {% endif %}
         
         <!-- 現在のページ/総ページ数 -->
@@ -40,11 +40,11 @@
         
         <!-- 次へ の部分 -->
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">次のページ &raquo;</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">最後のページ &raquo;</a>
+            <a href="?page={{ page_obj.next_page_number }}">次へ &raquo;</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">最後へ &raquo;</a>
         {% else %}
-            <a>次のページ &raquo;</a>
-            <a>最後のページ &raquo;</a>
+            <a>次へ &raquo;</a>
+            <a>最後へ &raquo;</a>
         {% endif %}
     </div>
 

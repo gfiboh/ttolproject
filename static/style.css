@@ -22,9 +22,10 @@
         text-decoration: none;
     }
 
-    img {
-        max-width: 100%;
+    .top-bottun {
+        text-align: right;
     }
+
 
     .contents-sidebar {
         display: flex;
@@ -59,12 +60,12 @@
         border-radius: 6px;
         font-size: 15px;
         white-space: pre-wrap;
-
     }
 
     .content-title {
         font-weight: bold;
     }
+
 /* ------ HEADER ------------------------------------------------------- */
 
     header {
@@ -94,9 +95,10 @@
         margin-top: 100px;
     }
 
-    .logo-position {
-        text-align: center;
-        margin-bottom: 0px;
+    .container {
+        display: grid;
+        grid-template-columns: 300px 500px;
+        gap: 20px;
     }
 
     .top-msg {
@@ -106,15 +108,12 @@
         margin-left: 100px;
     }
 
-    .container {
-        display: grid;
-        grid-template-columns: 300px 500px;
-        gap: 20px;
+
+    .logo-position {
+        text-align: center;
+        margin-bottom: 0px;
     }
 
-    .item {
-        padding: 10px;
-    }
 
 /* --------- メインコンテンツ ----------------------------------------- */
 
@@ -286,4 +285,200 @@
     }
 
 
+/*--------------------------------------------------------------------------------*/
+/* ---------- レスポンシブ対応 --------------------------------------------------- */
 
+    @media (max-width: 600px) {
+        /* ----- 共通部分 ---------------------------- */
+
+        body {
+            font-family: "Yu Gotic Medium", "游ゴシック Medium", YuGothic, "游ゴシック体", "ヒラギノ角ゴ Pro W3", sans-serif;
+            line-height: 1.5;
+            color: black;
+        }
+    
+
+        .contents-sidebar {
+            display: flex;
+            flex-direction: column-reverse;
+            justify-content: space-around;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 16px;
+        }
+    
+        h4 {
+            text-align: center;
+            font-size: 14px;
+        }
+    
+        
+        input {
+            border: thin solid #AAADAD;
+            border-radius: 6px;
+            font-size: 13px;
+            height: 20px;
+        }
+    
+        input[type=text] {
+            width: 300px;
+        }
+    
+    
+        textarea {
+            width: 300px;
+            height: 200px;
+            border: thin solid #AAADAD;
+            border-radius: 6px;
+            font-size: 15px;
+            white-space: pre-wrap;
+    
+        }
+    
+        /* ------ HEADER ------------------------------------------------------- */
+
+        header {
+            background-color: skyblue;
+            height: 1px;
+            text-align: center;
+            border: 1px solid skyblue;
+            border-radius: 6px;
+        }
+
+
+        /* ------- FOOTER ------------------------------------------------------ */
+
+        footer {
+            background-color: skyblue;
+            height: 1px;
+            text-align: center;
+            border: 1px solid skyblue;
+            border-radius: 6px;
+        }
+
+
+        /* ------- トップページ ------------------------ */
+
+        img.logo {
+            width: 200px;
+            height: 120px;
+        }
+    
+        .container {
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+    
+        .top-msg {
+            text-align: center;
+            grid-row: 2 / 3;
+            margin-left: 50px;
+        }
+    
+    
+        .logo-position {
+            text-align: center;
+            grid-row: 1 / 2;
+            margin-top: -80px;
+            margin-bottom: -150px;
+        }
+    
+        /* --------- メインコンテンツ ----------------------------------------- */
+
+        article {
+            width: 100%;
+        }
+
+
+        /* --------- サイドバー ----------------------------------------------- */
+        aside {
+            width: 100%;
+            text-align: left;
+            margin-left: 50px;
+            font-size: 15px;
+        }
+
+        aside p, .search-form, .search-button {
+            margin-left: 50px;
+            margin-top: 5px;
+        }
+
+
+        .search-form {
+            width: 150px;
+            border: thin solid #AAADAD;
+            border-radius: 6px;
+            margin-top: 0;
+        }
+
+        .user-welcome {
+            border-bottom: 2px solid skyblue;
+        }
+
+
+        /* --------- コンテンツ一覧 -------------------------------------------- */
+
+        .find-cnt {
+            text-align: center;
+        }
+
+        /*
+            グリッドのレイアウト参考ページ　https://qiita.com/kura07/items/e633b35e33e43240d363
+            https://developer.mozilla.org/ja/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout
+        */
+        .contents-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .content-item {
+            text-align: center;
+            border: thin solid skyblue;
+            border-radius: 6px;
+            margin: 5px;
+            padding-right: 20px;
+        }
+
+        .content-labels {
+            text-align: left;
+            margin-left: 100px;
+        }
+
+        .category-form {
+            margin-left: 100px;
+        }
+
+        .pagination {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .page-number {
+            margin: 3px;
+        }
+
+
+        /* ---------- コンテンツ詳細画面 -------------------------------------------------------- */
+
+        .detail-content {
+            margin: 20px;
+            text-align: left;
+        }
+    
+        .detail-texts {
+            margin: 20px;
+            text-align: left;
+            border-top: 2px solid skyblue;
+    
+        }
+    
+        /* ---------- コンテンツ作成・更新 ---------------------------------- */
+
+        .create-content {
+            margin-left: 20px;
+        }
+
+    }

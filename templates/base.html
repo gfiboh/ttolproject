@@ -11,13 +11,14 @@
             {% block title %}Teach x Learn{% endblock title %}    
         </titel>
         <meta name="description" content="教えることは学ぶこと">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- {%load static %}をいれないとエラーがでる -->
         {% load static %}
         <link rel="stylesheet" href="https://unpkg.com/ress/dict/ress.min.css">
         <link rel="stylesheet" href="{% static 'style.css' %}">
     </head>
 
-    <header>
+    <header id="page-top">
 
         {% block header %}
         {% endblock header %}
@@ -61,6 +62,10 @@
                 </ul>
                 {% endblock sidebar %}
             </aside>
+        </div>
+
+        <div class="top-bottun">
+            <a href="#page-top">上に戻る</a>
         </div>
     </body>
 
