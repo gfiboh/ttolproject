@@ -26,6 +26,20 @@
     </header>
 
     <body>
+        {% if user.is_authenticated %}
+            <div><span class="user-welcome">ようこそ{{user.username}}さん</span></div>
+        {% endif %}
+        <nav>
+                {% if user.is_authenticated %}
+                    <div class="nav-item"><a href="{% url 'ttolapp:list' %}">コンテンツ</a></div>
+                    <div class="nav-item"><a href="{% url 'ttolapp:logout' %}">ログアウト</a></div>
+                    <div class="nav-item"><a href="{% url 'ttolapp:create' %}">作成</a></div>
+                {% else %}
+                    <div class="nav-item"><a href="{% url 'ttolapp:list' %}">コンテンツ</a></div>
+                    <div class="nav-item"><a href="{% url 'ttolapp:login' %}">ログイン</a></div>
+                    <div class="nav-item"><a href="{% url 'ttolapp:signup' %}">新規登録</a></div>
+                {% endif %}
+        </nav>    
 
         <div class="contents-sidebar">
             <article>
@@ -46,16 +60,15 @@
                 <!-- user.is_authenticated はログインしていればTrueを返す -->
                 <ul class="side-list">                    
                     {% if user.is_authenticated %}
-                        <li><span class="user-welcome">ようこそ{{user.username}}さん</span></li>
                         <li><a href="{% url 'ttolapp:Index' %}">TOPへ</a></li>
-                        <li><a href="{% url 'ttolapp:list' %}">コンテンツ一覧へ</a></li>  
-                        <li><a href="{% url 'ttolapp:user_contents' %}">{{user.username}}さんのコンテンツ一覧</a></li>  
+                        <li><a href="{% url 'ttolapp:list' %}">コンテンツ</a></li>  
+                        <li><a href="{% url 'ttolapp:user_contents' %}">{{user.username}}さんのコンテンツ</a></li>  
                         <li><a href="{% url 'ttolapp:profile' %}">ユーザー情報</a></li>
                         <li><a href="{% url 'ttolapp:logout' %}">ログアウト</a></li>
                         <li><a href="{% url 'ttolapp:create' %}">作成</a></li>
                     {% else %}
                         <li><a href="{% url 'ttolapp:Index' %}">TOPへ</a></li>
-                        <li><a href="{% url 'ttolapp:list' %}">コンテンツ一覧へ</a></li>
+                        <li><a href="{% url 'ttolapp:list' %}">コンテンツ</a></li>
                         <li><a href="{% url 'ttolapp:login' %}">ログイン</a></li>
                         <li><a href="{% url 'ttolapp:signup' %}">新規登録</a></li>
                     {% endif %}

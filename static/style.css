@@ -18,6 +18,16 @@
         color: black;
     }
 
+    nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    .nav-item {
+        margin: 20px;
+    }
+
     a {
         text-decoration: none;
     }
@@ -105,13 +115,13 @@
         text-align: center;
         width: 300px;
         margin-top: 150px;
-        margin-left: 100px;
+        margin-left: 200px;
     }
 
 
     .logo-position {
         text-align: center;
-        margin-bottom: 0px;
+        margin-left: 200px;
     }
 
 
@@ -151,6 +161,7 @@
 
     .user-welcome {
         border-bottom: 2px solid skyblue;
+        text-align: right;
     }
 
 
@@ -297,10 +308,16 @@
             color: black;
         }
     
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+    
 
         .contents-sidebar {
             display: flex;
-            flex-direction: column-reverse;
+            flex-direction: column;
             justify-content: space-around;
         }
 
@@ -381,8 +398,8 @@
         .logo-position {
             text-align: center;
             grid-row: 1 / 2;
-            margin-top: -80px;
-            margin-bottom: -150px;
+            margin-left: 0;
+            margin-bottom: -20px;
         }
     
         /* --------- メインコンテンツ ----------------------------------------- */
@@ -396,6 +413,7 @@
         aside {
             width: 100%;
             text-align: left;
+            margin-top: 50px;
             margin-left: 50px;
             font-size: 15px;
         }
@@ -415,6 +433,7 @@
 
         .user-welcome {
             border-bottom: 2px solid skyblue;
+            font-size: 12px;
         }
 
 
